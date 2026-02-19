@@ -6,19 +6,21 @@
     <title>Google</title>
     <style>
         :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8f9fa;
-            --bg-footer: #f2f2f2;
+            --bg-primary: #f5f0e6;
+            --bg-secondary: #ebe4d6;
+            --bg-footer: #e8dfcf;
             --text-primary: #202124;
             --text-secondary: #5f6368;
             --text-link: #1a73e8;
-            --border-color: #dfe1e5;
+            --border-color: #d0c9b8;
             --shadow-light: rgba(60, 64, 67, 0.3);
             --shadow-medium: rgba(60, 64, 67, 0.15);
-            --google-blue: #4285f4;
+            --google-blue: #1a73e8;
             --google-red: #ea4335;
             --google-yellow: #fbbc05;
             --google-green: #34a853;
+            --dot-color: #c4b9a5;
+            --btn-active: #e8dfcf;
         }
 
         [data-theme="dark"] {
@@ -31,6 +33,8 @@
             --border-color: #5f6368;
             --shadow-light: rgba(0, 0, 0, 0.3);
             --shadow-medium: rgba(0, 0, 0, 0.15);
+            --dot-color: #444444;
+            --btn-active: #3c4043;
         }
 
         * {
@@ -40,74 +44,140 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            background-color: var(--bg-primary);
             color: var(--text-primary);
-            transition: all 0.3s ease;
-            animation: fadeIn 0.8s ease-out;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* Polka dots background */
+        .polka-dots {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background-image: radial-gradient(circle, var(--dot-color) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.5;
         }
 
-        @keyframes logoBounce {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+        [data-theme="dark"] .polka-dots {
+            opacity: 0.3;
         }
 
         /* Header Navigation */
         .header {
             display: flex;
-            justify-content: flex-end;
-            padding: 20px;
-            animation: slideDown 0.6s ease-out;
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .header-nav {
-            display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 15px;
+            padding: 15px 20px;
         }
 
-        .header-nav a {
+        .header-left {
+            display: flex;
+            gap: 20px;
+        }
+
+        .header-left a {
             text-decoration: none;
             color: var(--text-secondary);
             font-size: 13px;
-            line-height: 24px;
             transition: color 0.2s ease;
-            position: relative;
         }
 
-        .header-nav a:hover {
+        .header-left a:hover {
             color: var(--text-link);
-            text-decoration: underline;
         }
 
-        .apps-menu {
+        .header-left a:active {
+            background-color: var(--btn-active);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-right a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 13px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .header-right a:hover {
+            color: var(--text-primary);
+            background-color: var(--bg-secondary);
+        }
+
+        .labs-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+        }
+
+        .labs-container:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        .labs-icon {
+            width: 20px;
+            height: 24px;
             position: relative;
-            display: inline-block;
+        }
+
+        .flask-body {
+            width: 16px;
+            height: 14px;
+            border: 2px solid var(--text-secondary);
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            position: absolute;
+            bottom: 0;
+            left: 2px;
+            background: transparent;
+        }
+
+        .flask-neck {
+            width: 6px;
+            height: 8px;
+            border: 2px solid var(--text-secondary);
+            border-bottom: none;
+            position: absolute;
+            top: 0;
+            left: 7px;
+        }
+
+        .flask-liquid {
+            width: 10px;
+            height: 6px;
+            background: linear-gradient(180deg, var(--google-green) 0%, var(--google-blue) 100%);
+            border-radius: 0 0 2px 2px;
+            position: absolute;
+            bottom: 2px;
+            left: 3px;
+            opacity: 0.8;
+        }
+
+        .labs-text {
+            font-size: 10px;
+            color: var(--text-secondary);
+            white-space: nowrap;
         }
 
         .apps-button {
@@ -120,7 +190,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 2px;
             transition: background-color 0.2s ease;
         }
 
@@ -128,82 +197,17 @@
             background-color: var(--bg-secondary);
         }
 
-        .apps-dot {
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 4px);
+            gap: 3px;
+        }
+
+        .apps-grid span {
             width: 4px;
             height: 4px;
             background-color: var(--text-secondary);
             border-radius: 50%;
-        }
-
-        .apps-dropdown {
-            position: absolute;
-            top: 45px;
-            right: 0;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            box-shadow: 0 4px 6px var(--shadow-light);
-            padding: 8px 0;
-            min-width: 180px;
-            display: none;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.95);
-        }
-
-        [data-theme="dark"] .apps-dropdown {
-            background: rgba(32, 33, 36, 0.95);
-        }
-
-        .apps-dropdown.show {
-            display: block;
-            animation: fadeIn 0.2s ease-out;
-        }
-
-        .apps-dropdown a {
-            display: block;
-            padding: 10px 20px;
-            color: var(--text-primary);
-            text-decoration: none;
-            transition: background-color 0.2s ease;
-        }
-
-        .apps-dropdown a:hover {
-            background-color: var(--bg-secondary);
-        }
-
-        .sign-in-button {
-            background-color: var(--google-blue);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: background-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .sign-in-button:hover {
-            background-color: #357ae8;
-            box-shadow: 0 1px 2px var(--shadow-light);
-        }
-
-        .theme-toggle {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            transition: background-color 0.2s ease;
-        }
-
-        .theme-toggle:hover {
-            background-color: var(--bg-secondary);
         }
 
         .profile-circle {
@@ -216,13 +220,13 @@
             justify-content: center;
             color: white;
             font-size: 14px;
+            font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.2s ease;
         }
 
         .profile-circle:hover {
             transform: scale(1.1);
-            box-shadow: 0 4px 8px var(--shadow-light);
         }
 
         /* Main Content */
@@ -230,110 +234,121 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             padding: 20px;
-            grid-template-columns: 1fr;
-            gap: 30px;
+            margin-top: 50px;
         }
 
-        /* Google Doodle */
-        .doodle-container {
-            margin-bottom: 20px;
-            text-align: center;
-            animation: fadeIn 1s ease-out 0.5s both;
-        }
-
-        .doodle-image {
-            width: 272px;
-            height: 92px;
-            background: linear-gradient(45deg, var(--google-blue), var(--google-red), var(--google-yellow), var(--google-green));
-            border-radius: 8px;
-            margin-bottom: 10px;
+        /* Google Logo - Retro 90s Vibrant */
+        .google-logo {
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .doodle-image:hover {
-            transform: scale(1.05);
-        }
-
-        .doodle-subtitle {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        /* Google Logo */
-        .google-logo {
-            font-size: 90px;
-            font-weight: bold;
             margin-bottom: 30px;
-            line-height: 1;
-            animation: logoBounce 2s ease-in-out infinite;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            cursor: default;
         }
 
-        .google-logo span {
-            display: inline-block;
+        .google-letter {
+            font-size: 110px;
+            font-weight: 900;
+            font-family: 'Arial Black', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             transition: transform 0.3s ease, filter 0.3s ease;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: -4px;
         }
 
-        .google-logo span:hover {
-            transform: translateY(-5px) scale(1.1);
-            filter: brightness(1.2);
+        .google-letter:hover {
+            transform: scale(1.15);
+            filter: brightness(1.3);
         }
 
-        .google-logo span:nth-child(1) {
-            color: var(--google-blue);
+        .google-letter:nth-child(1) { 
+            color: #3366cc; 
+            text-shadow: 3px 3px 0 #003399, 6px 6px 10px rgba(51, 102, 204, 0.4);
+        }
+        .google-letter:nth-child(2) { 
+            color: #ff3333; 
+            text-shadow: 3px 3px 0 #cc0000, 6px 6px 10px rgba(255, 51, 51, 0.4);
+        }
+        .google-letter:nth-child(3) { 
+            color: #ffcc00; 
+            text-shadow: 3px 3px 0 #ff9900, 6px 6px 10px rgba(255, 204, 0, 0.4);
+        }
+        .google-letter:nth-child(4) { 
+            color: #3366cc; 
+            text-shadow: 3px 3px 0 #003399, 6px 6px 10px rgba(51, 102, 204, 0.4);
+        }
+        .google-letter:nth-child(5) { 
+            color: #33cc33; 
+            text-shadow: 3px 3px 0 #009900, 6px 6px 10px rgba(51, 204, 51, 0.4);
+        }
+        .google-letter:nth-child(6) { 
+            color: #ff3333; 
+            text-shadow: 3px 3px 0 #cc0000, 6px 6px 10px rgba(255, 51, 51, 0.4);
         }
 
-        .google-logo span:nth-child(2) {
-            color: var(--google-red);
+        /* Search Container */
+        .search-section {
+            width: 100%;
+            max-width: 584px;
         }
 
-        .google-logo span:nth-child(3) {
-            color: var(--google-yellow);
+        .modality-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 12px;
         }
 
-        .google-logo span:nth-child(4) {
-            color: var(--google-blue);
+        .modality-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border: 1px solid transparent;
+            border-radius: 20px;
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        .google-logo span:nth-child(5) {
-            color: var(--google-green);
+        .modality-btn:hover {
+            background: var(--bg-primary);
+            border-color: var(--border-color);
+            box-shadow: 0 1px 3px var(--shadow-medium);
         }
 
-        .google-logo span:nth-child(6) {
-            color: var(--google-red);
+        .modality-btn.active {
+            background: var(--google-blue);
+            color: white;
+            border-color: var(--google-blue);
+        }
+
+        .modality-btn:active {
+            background: var(--btn-active);
+            transform: scale(0.95);
+        }
+
+        .modality-btn svg {
+            width: 16px;
+            height: 16px;
         }
 
         /* Search Bar */
-        .search-container {
-            width: 100%;
-            max-width: 584px;
-            margin: 0 auto 30px;
+        .search-bar-wrapper {
             position: relative;
-            animation: fadeIn 0.8s ease-out 0.3s both;
-        }
-
-        .search-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
+            margin-bottom: 25px;
         }
 
         .search-bar {
             width: 100%;
-            height: 44px;
+            height: 48px;
             border: 1px solid var(--border-color);
             border-radius: 24px;
-            padding: 0 48px 0 16px;
+            padding: 0 50px 0 20px;
             font-size: 16px;
             outline: none;
             background: var(--bg-primary);
@@ -344,92 +359,20 @@
 
         .search-bar:hover {
             box-shadow: 0 4px 12px 2px var(--shadow-light);
-            transform: translateY(-1px);
         }
 
         .search-bar:focus {
             box-shadow: 0 4px 12px 2px var(--shadow-light);
             border-color: var(--google-blue);
-            transform: translateY(-2px);
         }
 
-        .voice-search {
+        .search-icon {
             position: absolute;
-            right: 12px;
+            right: 16px;
             top: 50%;
             transform: translateY(-50%);
-            width: 24px;
-            height: 24px;
-            border: none;
-            background: none;
-            cursor: pointer;
-            color: var(--text-secondary);
-            transition: color 0.2s ease;
-        }
-
-        .voice-search:hover {
-            color: var(--google-blue);
-        }
-
-        /* Search Suggestions */
-        .suggestions-container {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-top: none;
-            border-radius: 0 0 24px 24px;
-            box-shadow: 0 4px 6px var(--shadow-light);
-            display: none;
-            z-index: 1000;
-            max-height: 300px;
-            overflow-y: auto;
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.98);
-        }
-
-        [data-theme="dark"] .suggestions-container {
-            background: rgba(32, 33, 36, 0.98);
-        }
-
-        .suggestions-container.show {
-            display: block;
-            animation: slideDown 0.2s ease-out;
-        }
-
-        .suggestion-item {
-            padding: 12px 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: background-color 0.2s ease;
-            color: var(--text-primary);
-        }
-
-        .suggestion-item:hover {
-            background-color: var(--bg-secondary);
-        }
-
-        .suggestion-icon {
-            color: var(--text-secondary);
-        }
-
-        .suggestion-text {
-            flex: 1;
-        }
-
-        .suggestion-remove {
             color: var(--text-secondary);
             cursor: pointer;
-            padding: 4px;
-            transition: color 0.2s ease;
-        }
-
-        .suggestion-remove:hover {
-            color: var(--text-primary);
         }
 
         /* Search Buttons */
@@ -437,7 +380,7 @@
             display: flex;
             justify-content: center;
             gap: 12px;
-            animation: fadeIn 0.8s ease-out 0.6s both;
+            margin-bottom: 25px;
         }
 
         .search-button {
@@ -446,87 +389,55 @@
             border-radius: 4px;
             color: var(--text-primary);
             font-size: 14px;
-            padding: 0 16px;
-            height: 36px;
+            padding: 0 20px;
+            height: 40px;
             cursor: pointer;
-            outline: none;
             transition: all 0.2s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .search-button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(66, 133, 244, 0.1);
-            transform: translate(-50%, -50%);
-            transition: width 0.4s ease, height 0.4s ease;
-        }
-
-        .search-button:hover::before {
-            width: 100%;
-            height: 100%;
         }
 
         .search-button:hover {
-            box-shadow: 0 1px 2px var(--shadow-light);
             border: 1px solid var(--border-color);
-            transform: translateY(-1px);
+            box-shadow: 0 1px 2px var(--shadow-light);
         }
 
         .search-button:active {
-            transform: translateY(0);
-            box-shadow: none;
+            background-color: var(--btn-active);
+            transform: scale(0.95);
+            box-shadow: inset 0 2px 4px var(--shadow-medium);
         }
 
         /* Footer */
         .footer {
             background-color: var(--bg-footer);
-            padding: 0;
-            animation: slideUp 0.8s ease-out 0.9s both;
-        }
-
-        @keyframes slideUp {
-            from {
-                transform: translateY(50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
         }
 
         .footer-top {
-            border-bottom: 1px solid var(--border-color);
             padding: 15px 30px;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .country {
-            color: var(--text-secondary);
-            font-size: 15px;
-            display: flex;
-            justify-content: space-between;
+        .country-btn {
+            display: inline-flex;
             align-items: center;
-        }
-
-        .language-switcher {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            color: var(--text-link);
-            text-decoration: none;
-            font-size: 13px;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-primary);
+            font-size: 14px;
             cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        .language-switcher:hover {
-            text-decoration: underline;
+        .country-btn:hover {
+            background: var(--bg-primary);
+            box-shadow: 0 1px 3px var(--shadow-medium);
+        }
+
+        .country-btn:active {
+            background: var(--btn-active);
+            transform: scale(0.98);
         }
 
         .footer-bottom {
@@ -541,11 +452,9 @@
             gap: 15px;
         }
 
-        .footer-links-left,
-        .footer-links-right {
+        .footer-links {
             display: flex;
             gap: 25px;
-            flex-wrap: wrap;
         }
 
         .footer-links a {
@@ -559,568 +468,205 @@
             color: var(--text-link);
         }
 
-        /* Keyboard Shortcuts Modal */
-        .shortcuts-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            backdrop-filter: blur(5px);
-        }
-
-        .shortcuts-modal.show {
-            display: flex;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        .shortcuts-content {
-            background: var(--bg-primary);
-            border-radius: 12px;
-            padding: 30px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 10px 30px var(--shadow-light);
-        }
-
-        .shortcuts-title {
-            font-size: 24px;
-            margin-bottom: 20px;
+        .footer-links a:active {
             color: var(--text-primary);
+            background-color: var(--btn-active);
         }
 
-        .shortcut-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .shortcut-key {
-            background: var(--bg-secondary);
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 12px;
-            color: var(--text-primary);
-        }
-
-        .close-modal {
-            background: var(--google-blue);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: background-color 0.2s ease;
-        }
-
-        .close-modal:hover {
-            background-color: #357ae8;
-        }
-
-        /* Responsive Design */
+        /* Responsive */
         @media (max-width: 768px) {
-            .header-nav {
-                gap: 10px;
+            .google-letter {
+                font-size: 60px;
             }
-
-            .header-nav a:not(.apps-button):not(.profile-circle):not(.theme-toggle) {
+            
+            .header-left a:not(:first-child) {
                 display: none;
             }
-
-            .google-logo {
-                font-size: 72px;
+            
+            .header-right a:not(.apps-button):not(.profile-circle) {
+                display: none;
             }
-
-            .doodle-image {
-                width: 200px;
-                height: 68px;
+            
+            .modality-buttons {
+                flex-wrap: wrap;
             }
-
-            .search-container {
-                max-width: 100%;
-                padding: 0 20px;
-            }
-
+            
             .search-buttons {
                 flex-direction: column;
                 width: 100%;
                 max-width: 300px;
             }
-
+            
             .search-button {
                 width: 100%;
             }
-
-            .footer-links-left,
-            .footer-links-right {
+            
+            .footer-content {
                 flex-direction: column;
-                gap: 10px;
+                text-align: center;
             }
-
-            .country {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-
-            .shortcuts-content {
-                margin: 20px;
-                padding: 20px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .google-logo {
-                font-size: 60px;
-            }
-
-            .search-bar {
-                height: 40px;
-                font-size: 14px;
-            }
-
-            .header {
-                padding: 15px;
-            }
-
-            .footer-top,
-            .footer-bottom {
-                padding: 10px 15px;
-            }
-        }
-
-        /* Glassmorphism effect */
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        /* Accessibility focus styles */
-        *:focus-visible {
-            outline: 2px solid var(--google-blue);
-            outline-offset: 2px;
-        }
-
-        /* High contrast mode support */
-        @media (prefers-contrast: high) {
-            .search-bar {
-                border-width: 2px;
-            }
-        }
-
-        /* Reduced motion support */
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
+            
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header Navigation -->
+    <div class="polka-dots"></div>
+
+    <!-- Header -->
     <header class="header">
-        <nav class="header-nav">
+        <div class="header-left">
             <a href="#">About</a>
             <a href="#">Store</a>
-            <div class="apps-menu">
-                <button class="apps-button" aria-label="Apps menu">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px;">
-                        <div class="apps-dot"></div>
-                        <div class="apps-dot"></div>
-                        <div class="apps-dot"></div>
-                        <div class="apps-dot"></div>
-                        <div class="apps-dot"></div>
-                        <div class="apps-dot"></div>
-                        <div class="apps-dot"></div>
-                        <div class="apps-dot"></div>
-                        <div class="apps-dot"></div>
+        </div>
+        
+        <div class="header-right">
+            <a href="#">Gmail</a>
+            <a href="#">Images</a>
+            
+            <div class="labs-container">
+                <div class="labs-icon">
+                    <div class="flask-neck"></div>
+                    <div class="flask-body">
+                        <div class="flask-liquid"></div>
                     </div>
-                </button>
-                <div class="apps-dropdown" id="appsDropdown">
-                    <a href="#">YouTube</a>
-                    <a href="#">Gmail</a>
-                    <a href="#">Drive</a>
-                    <a href="#">Calendar</a>
-                    <a href="#">Maps</a>
-                    <a href="#">More...</a>
                 </div>
+                <span class="labs-text">Search Labs</span>
             </div>
-            <button class="sign-in-button">Sign in</button>
-            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
-            <div class="profile-circle" aria-label="Profile">U</div>
-        </nav>
+            
+            <button class="apps-button" aria-label="Google Apps">
+                <div class="apps-grid">
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                </div>
+            </button>
+            
+            <div class="profile-circle">D</div>
+        </div>
     </header>
 
     <!-- Main Content -->
     <main class="main-content">
-        <div class="doodle-container">
-            <div class="doodle-image">
-                🎨 Google Doodle
-            </div>
-            <div class="doodle-subtitle">Celebrating Creativity • Click to explore</div>
+        <!-- Stylized Colorful Google Logo -->
+        <div class="google-logo">
+            <span class="google-letter">G</span>
+            <span class="google-letter">o</span>
+            <span class="google-letter">o</span>
+            <span class="google-letter">g</span>
+            <span class="google-letter">l</span>
+            <span class="google-letter">e</span>
         </div>
 
-        <div class="google-logo">
-            <span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span>
-        </div>
-        
-        <div class="search-container">
-            <div class="search-wrapper">
-                <input type="text" class="search-bar" id="searchBar" placeholder="Search Google or type a URL" aria-label="Search">
-                <button class="voice-search" id="voiceSearch" aria-label="Voice search">
-                    🎤
+        <div class="search-section">
+            <!-- Search Modality Buttons -->
+            <div class="modality-buttons">
+                <button class="modality-btn active" data-modality="text">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    Text
                 </button>
-                <div class="suggestions-container" id="suggestionsContainer"></div>
+                <button class="modality-btn" data-modality="image">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                    Image
+                </button>
+                <button class="modality-btn" data-modality="video">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                    Video
+                </button>
+                <button class="modality-btn" data-modality="audio">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                    Audio
+                </button>
             </div>
-        </div>
-        
-        <div class="search-buttons">
-            <button class="search-button" id="searchButton">Google Search</button>
-            <button class="search-button" id="luckyButton">I'm Feeling Lucky</button>
+
+            <!-- Search Bar -->
+            <div class="search-bar-wrapper">
+                <input type="text" class="search-bar" placeholder="Search Google or type a URL" aria-label="Search">
+                <span class="search-icon">🔍</span>
+            </div>
+
+            <!-- Search Buttons -->
+            <div class="search-buttons">
+                <button class="search-button">Google Search</button>
+                <button class="search-button">I'm Feeling Lucky</button>
+            </div>
         </div>
     </main>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-top">
-            <div class="country">
-                <span>India</span>
-                <a href="#" class="language-switcher">🌐 English</a>
-            </div>
+            <button class="country-btn">
+                <span>🌍</span> India
+            </button>
         </div>
+        
         <div class="footer-bottom">
             <div class="footer-content">
-                <div class="footer-links-left">
+                <div class="footer-links">
                     <a href="#">Advertising</a>
                     <a href="#">Business</a>
                     <a href="#">How Search works</a>
                 </div>
-                <div class="footer-links-right">
+                <div class="footer-links">
                     <a href="#">Privacy</a>
                     <a href="#">Terms</a>
-                    <a href="#">Settings</a>
+                    <a href="#">Conditions</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- Keyboard Shortcuts Modal -->
-    <div class="shortcuts-modal" id="shortcutsModal">
-        <div class="shortcuts-content">
-            <h2 class="shortcuts-title">Keyboard Shortcuts</h2>
-            <div class="shortcut-item">
-                <span>Focus search</span>
-                <span class="shortcut-key">Ctrl/Cmd + K</span>
-            </div>
-            <div class="shortcut-item">
-                <span>Toggle dark mode</span>
-                <span class="shortcut-key">Ctrl/Cmd + D</span>
-            </div>
-            <div class="shortcut-item">
-                <span>Show shortcuts</span>
-                <span class="shortcut-key">?</span>
-            </div>
-            <div class="shortcut-item">
-                <span>Close modal</span>
-                <span class="shortcut-key">Escape</span>
-            </div>
-            <button class="close-modal" id="closeModal">Got it!</button>
-        </div>
-    </div>
-
     <script>
-        // Search suggestions data
-        const searchSuggestions = [
-            'javascript tutorial',
-            'reactjs documentation',
-            'python for beginners',
-            'web development course',
-            'css flexbox guide',
-            'html5 semantic elements',
-            'nodejs express tutorial',
-            'mongodb vs mysql',
-            'vue.js vs react',
-            'machine learning basics'
-        ];
-
-        // DOM elements
-        const searchBar = document.getElementById('searchBar');
-        const suggestionsContainer = document.getElementById('suggestionsContainer');
-        const searchButton = document.getElementById('searchButton');
-        const luckyButton = document.getElementById('luckyButton');
-        const voiceSearch = document.getElementById('voiceSearch');
-        const themeToggle = document.getElementById('themeToggle');
-        const appsButton = document.querySelector('.apps-button');
-        const appsDropdown = document.getElementById('appsDropdown');
-        const shortcutsModal = document.getElementById('shortcutsModal');
-        const closeModal = document.getElementById('closeModal');
-        const doodleImage = document.querySelector('.doodle-image');
-
-        // Initialize theme
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        updateThemeIcon();
-
-        // Theme toggle
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeIcon();
-        });
-
-        function updateThemeIcon() {
-            const theme = document.documentElement.getAttribute('data-theme');
-            themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
-        }
-
-        // Search functionality
-        searchBar.addEventListener('input', (e) => {
-            const query = e.target.value.trim();
-            if (query.length > 0) {
-                showSuggestions(query);
-            } else {
-                hideSuggestions();
-            }
-        });
-
-        function showSuggestions(query) {
-            const filteredSuggestions = searchSuggestions.filter(suggestion =>
-                suggestion.toLowerCase().includes(query.toLowerCase())
-            ).slice(0, 8);
-
-            if (filteredSuggestions.length > 0) {
-                suggestionsContainer.innerHTML = filteredSuggestions.map(suggestion => `
-                    <div class="suggestion-item">
-                        <span class="suggestion-icon">🔍</span>
-                        <span class="suggestion-text">${suggestion}</span>
-                        <span class="suggestion-remove">✕</span>
-                    </div>
-                `).join('');
-                suggestionsContainer.classList.add('show');
-                attachSuggestionListeners();
-            } else {
-                hideSuggestions();
-            }
-        }
-
-        function hideSuggestions() {
-            suggestionsContainer.classList.remove('show');
-        }
-
-        function attachSuggestionListeners() {
-            const suggestionItems = suggestionsContainer.querySelectorAll('.suggestion-item');
-            suggestionItems.forEach(item => {
-                const textElement = item.querySelector('.suggestion-text');
-                const removeButton = item.querySelector('.suggestion-remove');
-
-                textElement.addEventListener('click', () => {
-                    searchBar.value = textElement.textContent;
-                    hideSuggestions();
-                    performSearch(textElement.textContent);
-                });
-
-                removeButton.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    item.remove();
-                });
+        // Modality buttons - toggle active state
+        const modalityButtons = document.querySelectorAll('.modality-btn');
+        
+        modalityButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                modalityButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
             });
-        }
-
-        function performSearch(query) {
-            console.log('Searching for:', query);
-            // In a real app, this would redirect to search results
-            alert(`Searching for: ${query}`);
-        }
-
-        // Search button click handlers
-        searchButton.addEventListener('click', () => {
-            const query = searchBar.value.trim();
-            if (query) {
-                performSearch(query);
-            }
         });
 
-        luckyButton.addEventListener('click', () => {
-            const randomQueries = [
-                'interesting facts',
-                'random wikipedia article',
-                'fun quizzes',
-                'amazing discoveries',
-                'surprising statistics'
-            ];
-            const randomQuery = randomQueries[Math.floor(Math.random() * randomQueries.length)];
-            searchBar.value = randomQuery;
-            performSearch(randomQuery);
-        });
+        // Search functionality (visual only)
+        const searchBar = document.querySelector('.search-bar');
+        const searchButtons = document.querySelectorAll('.search-button');
 
-        // Voice search (visual only)
-        voiceSearch.addEventListener('click', () => {
-            voiceSearch.style.animation = 'pulse 1s ease-in-out';
-            setTimeout(() => {
-                voiceSearch.style.animation = '';
-                alert('Voice search would be activated here (requires Web Speech API)');
-            }, 1000);
-        });
-
-        // Add pulse animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes pulse {
-                0%, 100% { transform: scale(1); }
-                50% { transform: scale(1.2); }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Apps menu toggle
-        appsButton.addEventListener('click', (e) => {
-            e.stopPropagation();
-            appsDropdown.classList.toggle('show');
-        });
-
-        // Close apps menu when clicking outside
-        document.addEventListener('click', () => {
-            appsDropdown.classList.remove('show');
-            hideSuggestions();
-        });
-
-        // Search bar focus
-        searchBar.addEventListener('focus', () => {
-            if (searchBar.value.trim().length > 0) {
-                showSuggestions(searchBar.value);
-            }
-        });
-
-        // Keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            // Ctrl/Cmd + K: Focus search
-            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-                e.preventDefault();
-                searchBar.focus();
-            }
-
-            // Ctrl/Cmd + D: Toggle dark mode
-            if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
-                e.preventDefault();
-                themeToggle.click();
-            }
-
-            // ?: Show shortcuts modal
-            if (e.key === '?' && !searchBar.matches(':focus')) {
-                shortcutsModal.classList.add('show');
-            }
-
-            // Escape: Close modal
-            if (e.key === 'Escape') {
-                shortcutsModal.classList.remove('show');
-                hideSuggestions();
-                appsDropdown.classList.remove('show');
-            }
-
-            // Enter in search bar
-            if (e.key === 'Enter' && searchBar.matches(':focus')) {
+        searchButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
                 const query = searchBar.value.trim();
                 if (query) {
-                    performSearch(query);
+                    console.log('Searching for:', query);
+                } else {
+                    console.log('Please enter a search term');
                 }
-            }
-        });
-
-        // Modal close button
-        closeModal.addEventListener('click', () => {
-            shortcutsModal.classList.remove('show');
-        });
-
-        // Click outside modal to close
-        shortcutsModal.addEventListener('click', (e) => {
-            if (e.target === shortcutsModal) {
-                shortcutsModal.classList.remove('show');
-            }
-        });
-
-        // Doodle click handler
-        doodleImage.addEventListener('click', () => {
-            const doodleTexts = [
-                '🎨 You discovered a creative doodle!',
-                '🌟 Today is all about imagination!',
-                '🚀 Let your creativity soar!',
-                '💭 Ideas worth exploring!'
-            ];
-            const randomText = doodleTexts[Math.floor(Math.random() * doodleTexts.length)];
-            doodleImage.textContent = randomText;
-            
-            setTimeout(() => {
-                doodleImage.textContent = '🎨 Google Doodle';
-            }, 3000);
-        });
-
-        // Add hover sound effects (visual feedback)
-        const interactiveElements = document.querySelectorAll('button, a, .profile-circle');
-        interactiveElements.forEach(element => {
-            element.addEventListener('mouseenter', () => {
-                element.style.transform = element.style.transform || 'scale(1)';
             });
         });
 
-        // Easter egg: Konami code
-        let konamiCode = [];
-        const konamiPattern = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-
-        document.addEventListener('keydown', (e) => {
-            konamiCode.push(e.key);
-            konamiCode = konamiCode.slice(-10);
-
-            if (konamiCode.join('') === konamiPattern.join('')) {
-                document.body.style.animation = 'rainbow 2s ease-in-out';
-                setTimeout(() => {
-                    document.body.style.animation = '';
-                }, 2000);
-            }
-        });
-
-        // Add rainbow animation for Konami code
-        const rainbowStyle = document.createElement('style');
-        rainbowStyle.textContent = `
-            @keyframes rainbow {
-                0% { filter: hue-rotate(0deg); }
-                100% { filter: hue-rotate(360deg); }
-            }
-        `;
-        document.head.appendChild(rainbowStyle);
-
-        // Performance optimization: Debounce search
-        let searchTimeout;
-        searchBar.addEventListener('input', (e) => {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                const query = e.target.value.trim();
-                if (query.length > 0) {
-                    showSuggestions(query);
-                } else {
-                    hideSuggestions();
+        searchBar.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const query = searchBar.value.trim();
+                if (query) {
+                    console.log('Searching for:', query);
                 }
-            }, 300);
+            }
         });
 
-        // Initialize page with welcome animation
-        console.log('🚀 Google Clone loaded successfully!');
-        console.log('Press "?" to see keyboard shortcuts');
+        // Google Logo hover effect
+        const letters = document.querySelectorAll('.google-letter');
+        letters.forEach((letter, index) => {
+            letter.addEventListener('mouseenter', () => {
+                letter.style.transform = `scale(1.2) translateY(-10px)`;
+            });
+            letter.addEventListener('mouseleave', () => {
+                letter.style.transform = 'scale(1) translateY(0)';
+            });
+        });
+
+        console.log('🚀 Google Clone loaded! Try clicking the buttons.');
     </script>
 </body>
 </html>
